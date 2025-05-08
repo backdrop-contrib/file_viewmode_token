@@ -1,5 +1,5 @@
-# file_viewmode_token
-BackdropCMS Module that translates embedded media tokens into file displays using any viewmode.
+# File Viewmode Token
+Backdrop Module that translates embedded media tokens into file displays using any view mode.
 
 Token format is: 
 [[{"fid":"$fid","view_mode":"$view_mode"}]]
