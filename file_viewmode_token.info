@@ -1,12 +1,6 @@
-name = File Entity Embed Filter
-description = Embed File entities in content using token-like placeholders.
+name = File Viewmode Token
+description = Input filter to render tokens as files with a view mode.
 backdrop = 1.x
 type = module
 dependencies[] = file
 dependencies[] = filter
-dependencies[] = views
-
-; Added by Backdrop CMS packaging script on 2023-12-18
-project = feef
-version = 1.x-1.1.1
-timestamp = 1702902721
