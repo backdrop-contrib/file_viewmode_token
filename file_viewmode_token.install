@@ -1,0 +1,14 @@
+<?php
+/**
+ * @file
+ * Uninstall hook for this module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function feef_uninstall() {
+  // Delete the view provided by this module.
+  $config = config('views.view.feef_autocomplete');
+  $config->delete();
+}

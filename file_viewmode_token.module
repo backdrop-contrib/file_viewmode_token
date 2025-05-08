@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * Implements hook_filter_info().
+ */
+function file_viewmode_token_filter_info() {
+  return [
+    'file_viewmode_token_filter' => [
+      'title' => t('File View Mode Token Filter'),
+      'description' => t('Replaces [[{fid/view_mode}]] tokens with rendered file entity displays.'),
+      'process callback' => 'file_viewmode_token_filter_process',
+      'weight' => 0,
+    ],
+  ];
+}
+
+/**
+ * Implements hook_theme().
+ */
+function file_viewmode_token_theme() {
+  return [
+    'file_viewmode_token' => [
+      'variables' => ['file' => NULL, 'view_mode' => NULL],
+      'template' => 'file-viewmode-token',
+    ],
+  ];
+}
+
+/**
+ * Process callback for the input filter.
+ */
+function file_viewmode_token_filter_process($text, $filter, $format, $langcode, $cache, $cache_id) {
+  return preg_replace_callback('/\[\[(.*?)\]\]/', 'file_viewmode_token_replace', $text);
+}
+
+/**
+ * Callback to replace matched token with rendered file output.
+ */
+function file_viewmode_token_replace($matches) {
+  $json = html_entity_decode($matches[1]);
+  $data = json_decode($json, TRUE);
+  if (!isset($data['fid']) || !isset($data['view_mode'])) {
+    return $matches[0]; // Leave untouched if invalid.
+  }
+
+  $file = file_load($data['fid']);
+  if (!$file) {
+    return '<!-- Invalid FID -->';
+  }
+
+  return theme('file_viewmode_token', [
+    'file' => $file,
+    'view_mode' => $data['view_mode'],
+  ]);
+}
